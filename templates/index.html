@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Anonymous Chat</title>
+  <link href="../static/styles.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Ubuntu&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Roboto+Mono&display=swap" rel="stylesheet">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+  <script src='http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.5/jquery-ui.min.js'></script>
+</head>
+
+<body>
+  <form method="POST" action="/">
+    <div class="container">
+
+      <div id="left">
+        <p id=message></p>
+        <div>
+          <input type="text" name="name" id="nameInput" value="Username"
+            onkeydown="if(this.value == 'Username'){this.value=''}"
+            onblur="if (this.value == ''){this.value='Username'}">
+        </div>
+        <input type="submit" name="submit" id="new" value="New Chat">
+        <input type="button" name="join" onclick="showJoin()" value="Join Chat" id="join">
+      </div>
+      <div id="right">
+        <div>
+          <input type="text" id="chatid" name="chat_id" value="ChatId"
+            onkeydown="if(this.value == 'ChatId'){this.value=''} return (alphaOnly(event) && this.value.length < 4) || event.keyCode == 8"
+            onblur="if (this.value == ''){this.value='ChatId'}" style="text-transform: uppercase" onfocus="if (this.value=='ChatId'){this.value=''}">
+            <p id="message"></p>
+          <input type="button" id="back" onclick="hideJoin()" value="Back" class="button">
+          <input type="submit" id="joinchat" value="Join" class="button">
+        </div>
+      </div>
+    </div>
+    {% raw xsrf_form_html() %}
+  </form>
+  <script>
+    $("#nameInput").focus()
+    $("#right").hide()
+
+    let newChat = true
+
+
+    function showJoin() {
+      newChat = false
+      $("#chatid").value = 'ChatId'
+      $("#right").fadeIn()
+      $("#join").hide()
+      $("#new").hide()
+    }
+
+    function hideJoin(){
+      newChat = true
+      $("#right").fadeOut()
+      $("#new").fadeIn()
+      $("#join").fadeIn()
+    }
+
+    function alphaOnly(event) {
+      var key = event.keyCode;
+      return (/^[a-z0-9]$/i.test(event.key)) || key == 8 || key == 32;
+    };
+  </script>
+</body>

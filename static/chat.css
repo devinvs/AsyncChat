@@ -1,0 +1,43 @@
+html, body{
+    height:100%;
+}
+
+body{
+    margin:0;
+    background-color:#2e3440;
+}
+
+.container{
+    display:grid;
+    grid-template-columns: 1fr 8fr 1fr;
+    grid-template-rows: 80vh 20vh;
+    grid-template-areas:
+        ". display ."
+        ". input ."
+}
+
+#display{
+    grid-area: display;
+    background-color:#eceff4;
+    overflow: scroll;
+}
+
+#input{
+    grid-area: input;
+    margin:5%;
+}
+
+#input textarea{
+    background-color:white;
+    color:#2e3440;
+    font-family: 'Roboto', sans-serif;
+    font-size: 1em;
+    width: 80%;
+    height: 3vh;
+    padding-left:2%;
+    padding-top:0.5%;
+}
+
+#input input[type="submit"]{
+    height: 3vh;
+}

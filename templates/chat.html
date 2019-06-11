@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Anonymous Chat</title>
+    <link href="../static/chat.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div class="container">
+        <div id="display">
+            <p class="sys">Chat {{ chat_id }} opened</p>
+            <p class="sys">Jordan joined the Chat</p>
+            <p class="msg">Devin: Hello all</p>
+        </div>
+        <div id="input">
+            <form onsubmit="return false">
+                <textarea ros="1" cols="auto" id="text"></textarea>
+                <input type="submit" onclick="sendMessage()" value="Send">
+            </form>
+        </div>
+
+    </div>
+</body>
+<script>
+    autosize(document.getElementById("text"))
+    let ws = new WebSocket("ws://localhost:8888/chatsocket");
+
+    ws.onmessage = function (evt) {
+        let data = JSON.parse(evt.data)
+        for (let i = 0; i < data.length; i++) {
+            let container = document.createElement("div")
+            let p = document.createElement("p")
+            p.innerText = data[i][0] + ": " + data[i][1]
+            container.appendChild(p)
+            document.getElementById("display").appendChild(container)
+        }
+
+    };
+
+    function sendMessage() {
+
+        let field = document.getElementById("text")
+        if (field.value != "") {
+            ws.send(field.value)
+            field.value = ""
+        }
+
+    }
+
+    function parseMessage(message) {
+
+    }
+</script>
+
+</html>
