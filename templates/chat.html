@@ -16,7 +16,7 @@
         </div>
         <div id="input">
             <form onsubmit="return false">
-                <textarea ros="1" cols="auto" id="text"></textarea>
+                <textarea rows="1" cols="auto" id="textMessage"></textarea>
                 <input type="submit" onclick="sendMessage()" value="Send">
             </form>
         </div>
@@ -24,7 +24,7 @@
     </div>
 </body>
 <script>
-    autosize(document.getElementById("text"))
+    //autosize(document.getElementById("textMessage"))
     let ws = new WebSocket("ws://localhost:8888/chatsocket");
 
     ws.onmessage = function (evt) {
@@ -41,7 +41,7 @@
 
     function sendMessage() {
 
-        let field = document.getElementById("text")
+        let field = document.getElementById("textMessage")
         if (field.value != "") {
             ws.send(field.value)
             field.value = ""
