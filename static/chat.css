@@ -38,6 +38,7 @@ body{
 }
 
 #sidebar #top h1{
+    font-family: 'Roboto Mono', monospace;
     text-align: center;
 }
 #sidebar button{
