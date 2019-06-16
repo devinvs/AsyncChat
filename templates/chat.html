@@ -4,44 +4,86 @@
 <head>
     <title>Anonymous Chat</title>
     <link href="../static/chat.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Ubuntu&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Mono&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/simplebar@latest/dist/simplebar.css" />
+    <script src="https://unpkg.com/simplebar@latest/dist/simplebar.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+    <script src="../static/autosize.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Titillium+Web&display=swap" rel="stylesheet"> 
+    <noscript>
+        <style>
+        [data-simplebar] {
+            overflow: auto;
+        }
+        </style>
+    </noscript>
 </head>
 
 <body>
     <div class="container">
+        <div id="sidebar">
+            <div id="top">
+                <h1>Chat ID:</h1>
+                <h1>{{ chat_id }}</h1>
+            </div>
+            <button onclick="window.location.href='https://localhost:8888'">Leave</button>
+        </div>
         <div id="display">
-            <p class="sys">Chat {{ chat_id }} opened</p>
-            <p class="sys">Jordan joined the Chat</p>
-            <p class="msg">Devin: Hello all</p>
+            <p class="sys">Chat {{ chat_id }} Opened</p>
         </div>
         <div id="input">
+                <textarea id="text" name="text" rows="1" onfocus="if(this.value=='Enter Message Here...'){this.value=''}; this.style='color:#2e3440'">Enter Message Here...</textarea>
             <form onsubmit="return false">
-                <textarea rows="1" cols="auto" id="textMessage"></textarea>
                 <input type="submit" onclick="sendMessage()" value="Send">
             </form>
         </div>
-
     </div>
 </body>
+
 <script>
-    //autosize(document.getElementById("textMessage"))
+    const simpleBar = new SimpleBar($('#display')[0])
+    const el = simpleBar.getScrollElement()
+    el.scrollTop = el.scrollHeight
+
+    $('#text').autoResize();
+
+    $(function() {
+        $("#text").keypress(function (e) {
+            if(e.which == 13) {
+                sendMessage()
+                $(this).val("")
+                e.preventDefault();
+            }
+        });
+    });
+
     let ws = new WebSocket("ws://localhost:8888/chatsocket");
 
     ws.onmessage = function (evt) {
         let data = JSON.parse(evt.data)
         for (let i = 0; i < data.length; i++) {
-            let container = document.createElement("div")
+            let msgClass = data[i][0]
             let p = document.createElement("p")
-            p.innerText = data[i][0] + ": " + data[i][1]
-            container.appendChild(p)
-            document.getElementById("display").appendChild(container)
+            p.className=msgClass
+            if(msgClass == "sys"){
+                p.innerText = data[i][2];
+            }else if(msgClass == "msg"){
+                p.innerText = data[i][1] + ": " + data[i][2]
+            }
+            simpleBar.getContentElement().appendChild(p);
+            simpleBar.recalculate()
+            el.scrollTop = el.scrollHeight
         }
+        
 
     };
 
+    
+
     function sendMessage() {
 
-        let field = document.getElementById("textMessage")
+        let field = document.getElementById("text")
         if (field.value != "") {
             ws.send(field.value)
             field.value = ""

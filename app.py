@@ -35,6 +35,7 @@ class ChatRoom():
         self.listeners = set()
 
     def addUser(self, listener):
+        self.addMessage("sys", "", "{} Joined the Chat".format(listener.user_name))
         self.listeners.add(listener)
         self.users[listener.user_id] = listener.user_name
 
@@ -42,9 +43,9 @@ class ChatRoom():
         self.listeners.remove(listener)
         self.users.pop(listener.user_id)
 
-    def addMessage(self, sender, message):
-        self.cache.append((sender, message))
-        message = json.dumps([[sender, message]])
+    def addMessage(self, msgClass, sender, message):
+        self.cache.append((msgClass, sender, message))
+        message = json.dumps([[msgClass, sender, message]])
         for listener in self.listeners:
             listener.write_message(message)
 
@@ -92,7 +93,7 @@ class ChatSocketHandler(tornado.websocket.WebSocketHandler):
             self.write_message(tornado.escape.json_encode(chats[self.chat_id].cache))
 
     def on_message(self, message):
-        chats[self.chat_id].addMessage(self.user_name, message)
+        chats[self.chat_id].addMessage("msg", self.user_name, message)
 
     def on_close(self):
         chats[self.chat_id].delUser(self)
