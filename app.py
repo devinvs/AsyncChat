@@ -112,7 +112,6 @@ class ChatSocketHandler(tornado.websocket.WebSocketHandler):
 
     def on_message(self, message):
         if message.split('|')[0] == "SYS":
-            print(message)
             command = message.split('|')[1]
 
             if command == "LOCK":
@@ -127,7 +126,7 @@ class ChatSocketHandler(tornado.websocket.WebSocketHandler):
 
         if len(chats[self.chat_id].users) == 0:
             chats.pop(self.chat_id)
-            print("chat closed")
+            print("chat {} closed".format(self.chat_id))
         else:
             chats[self.chat_id].addMessage("sys", '', "{} Left the Chat".format(self.user_name))
 

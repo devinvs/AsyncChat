@@ -51,9 +51,9 @@
 
 <script>
 
-    // if({{ is_host }}){
-        
-    // }
+    if({{ is_host }} == 0){
+        $("#lockbox").hide()
+    }
 
     const simpleBar = new SimpleBar($('#display')[0])
     const el = simpleBar.getScrollElement()
