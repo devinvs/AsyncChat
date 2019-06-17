@@ -27,6 +27,14 @@
                 <h1>Chat ID:</h1>
                 <h1>{{ chat_id }}</h1>
             </div>
+            <div id="lockbox">
+                <p>Lock</p>
+                <label class="switch">
+                    <input type="checkbox" onclick='if(this.checked){ws.send("SYS|LOCK")}else{ws.send("SYS|UNLOCK")}'>
+                    <span class="slider"></span>
+                </label>
+            </div>
+            
             <button onclick="window.location.href='/'">Leave</button>
         </div>
         <div id="display">
@@ -42,6 +50,11 @@
 </body>
 
 <script>
+
+    // if({{ is_host }}){
+        
+    // }
+
     const simpleBar = new SimpleBar($('#display')[0])
     const el = simpleBar.getScrollElement()
     el.scrollTop = el.scrollHeight
@@ -79,8 +92,6 @@
 
     };
 
-    
-
     function sendMessage() {
 
         let field = document.getElementById("text")
@@ -91,8 +102,12 @@
 
     }
 
-    function parseMessage(message) {
-
+    function lock(){
+        ws.send("SYS|LOCK")
+    }
+    
+    function unlock(){
+        ws.send("SYS|UNLOCK")
     }
 </script>
 
