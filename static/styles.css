@@ -54,7 +54,7 @@ input[type=text] {
     grid-template-columns: 1fr 4fr 2fr;
     grid-template-rows: 1fr 2fr 2fr 1fr 1fr;
     grid-template-areas: 
-        "message . ."
+        ". error ."
         ". name ."
         ". . ."
         ". new join"
@@ -89,6 +89,12 @@ input[type=text] {
 
 #right div{
     grid-area: chat;
+}
+
+#error{
+    grid-area: error;
+    font-family: 'Ubuntu', sans-serif;
+    color: #bf616a;
 }
 
 #left #new{

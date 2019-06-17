@@ -41,6 +41,14 @@ body{
     font-family: 'Roboto Mono', monospace;
     text-align: center;
 }
+
+#sidebar #lockbox{
+    align-self: center;
+    text-align: center;
+    font-family: "Ubuntu", sans-serif;
+    font-size: 1em;
+}
+
 #sidebar button{
     width: 50%;
     height: 5.7%;
@@ -126,3 +134,55 @@ body{
 #input form input[type="submit"]:hover{
     background-color: #5e81ac;
 }
+
+.switch {
+    position:relative;
+    align-self: center;
+    display: inline-block;
+    width: 7vw;
+    height: 4vh;
+  }
+  
+  .switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+  
+  .slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #2e3440;
+    -webkit-transition: .4s;
+    transition: .4s;
+  }
+  
+  .slider:before {
+    position: absolute;
+    content: "";
+    height: 3vh;
+    width: 3.2vw;
+    left: .3vw;
+    bottom: .5vh;
+    background-color: white;
+    -webkit-transition: .4s;
+    transition: .4s;
+  }
+  
+  input:checked + .slider {
+    background-color: #5e81ac;
+  }
+  
+  input:focus + .slider {
+    box-shadow: 0 0 1px #5e81ac;
+  }
+  
+  input:checked + .slider:before {
+    -webkit-transform: translateX(3.2vw);
+    -ms-transform: translateX(3.2vw);
+    transform: translateX(3.2vw);
+  }

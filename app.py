@@ -30,9 +30,11 @@ class Application(tornado.web.Application):
 class ChatRoom():
     def __init__(self, id):
         self.id = id
+        self.host_id = 0
         self.cache = []
         self.users = {}
         self.listeners = set()
+        self.locked=False
 
     def addUser(self, listener):
         self.addMessage("sys", "", "{} Joined the Chat".format(listener.user_name))
@@ -49,6 +51,15 @@ class ChatRoom():
         for listener in self.listeners:
             listener.write_message(message)
 
+    def lock(self, user_id):
+        if user_id == self.host_id and not self.locked:
+            self.locked = True
+            self.addMessage("sys", "", "Chat Locked")
+
+    def unlock(self, user_id):
+        if user_id == self.host_id and self.locked:
+            self.locked = False
+            self.addMessage("sys", "", "Chat Unlocked")
 
 chats = {}
 
@@ -61,7 +72,7 @@ class MainHandler(tornado.web.RequestHandler):
     def get(self):
         if not self.get_secure_cookie("user_id"):
             self.set_secure_cookie("user_id", str(uuid.uuid4()))
-        self.render("index.html")
+        self.render("index.html", error='')
 
     def post(self):
         name = self.get_body_argument("name")
@@ -72,20 +83,27 @@ class MainHandler(tornado.web.RequestHandler):
             chat_id = newChatString()
         else:
             chat_id = self.get_body_argument("chat_id").upper()
-        self.set_secure_cookie("chat_id", chat_id)
-        self.render("chat.html", chat_id=chat_id)
+
+        if chat_id in chats.keys() and chats[chat_id].locked:
+            self.render('index.html', error="The chat you tried to access was locked")
+        else:
+            self.set_secure_cookie("chat_id", chat_id)
+            self.render("chat.html", chat_id=chat_id, is_host=self.get_body_argument("newChat"))
 
 
 class NotFoundHandler(tornado.web.RequestHandler):
-    pass
+    def get(self):
+        self.redirect('/')
 
 class ChatSocketHandler(tornado.websocket.WebSocketHandler):
     def open(self):
-        self.chat_id = self.get_secure_cookie("chat_id")
+        self.chat_id = self.get_secure_cookie("chat_id").decode('utf-8')
         self.user_id = self.get_secure_cookie("user_id")
         self.user_name = self.get_secure_cookie("user_name").decode('utf-8')
+
         if self.chat_id not in chats:
             chats[self.chat_id] = ChatRoom(self.chat_id)
+            chats[self.chat_id].host_id = self.user_id
             print("chat {} opened".format(self.chat_id))
 
         chats[self.chat_id].addUser(self)
@@ -93,13 +111,25 @@ class ChatSocketHandler(tornado.websocket.WebSocketHandler):
             self.write_message(tornado.escape.json_encode(chats[self.chat_id].cache))
 
     def on_message(self, message):
-        chats[self.chat_id].addMessage("msg", self.user_name, message)
+        if message.split('|')[0] == "SYS":
+            print(message)
+            command = message.split('|')[1]
+
+            if command == "LOCK":
+                chats[self.chat_id].lock(self.user_id)
+            elif command == "UNLOCK":
+                chats[self.chat_id].unlock(self.user_id)
+        else:
+            chats[self.chat_id].addMessage("msg", self.user_name, message)
 
     def on_close(self):
         chats[self.chat_id].delUser(self)
+
         if len(chats[self.chat_id].users) == 0:
             chats.pop(self.chat_id)
             print("chat closed")
+        else:
+            chats[self.chat_id].addMessage("sys", '', "{} Left the Chat".format(self.user_name))
 
 if __name__ == '__main__':
     application = Application()
