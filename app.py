@@ -97,9 +97,12 @@ class ChatSocketHandler(tornado.websocket.WebSocketHandler):
 
     def on_close(self):
         chats[self.chat_id].delUser(self)
+        
         if len(chats[self.chat_id].users) == 0:
             chats.pop(self.chat_id)
             print("chat closed")
+        else:
+            chats[self.chat_id].addMessage("sys", '', "{} Left the Chat".format(self.user_name))
 
 if __name__ == '__main__':
     application = Application()
