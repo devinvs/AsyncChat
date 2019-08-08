@@ -1,0 +1,53 @@
+.MenuContainer{
+    background-color: #fafafa;
+    height: auto;
+    width: auto;
+    display: inline-block;
+    position: absolute;
+    padding: 3%;
+    left: 0;
+    transition-property: left;
+    transition-duration: .5s;
+    transition-timing-function: cubic-bezier(0.47, 0, 0.745, 0.715);
+    z-index: 99;
+}
+
+.MenuContainer.hidden{
+    left: -100%;
+}
+
+.MenuContainer .content{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    font-family: 'Titillium Web', sans-serif;
+    font-size: 1.3em;
+    white-space: nowrap;
+    overflow-x: hidden;
+}
+
+.MenuContainer .content .header{
+    text-align: center;
+    border-bottom: 1px solid #282c34;
+    font-size: 2em;
+    margin-bottom: 5%;
+}
+
+.MenuContainer .content .oneline{
+    display: flex;
+    justify-content: space-between;
+}
+
+.MenuContainer .content .user:hover{
+    cursor: pointer;
+    color:#61afef;
+}
+
+.MenuContainer .content .header.hidden{
+    opacity: 0;
+    height: 0;
+}
+
+.MenuContainer .content .oneline.hidden{
+    display: none;
+}

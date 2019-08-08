@@ -1,0 +1,32 @@
+.ChatHeader{
+    width: 100%;
+    background-color: #fafafa ;
+
+    display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 5% 0 1%;
+    position: relative;
+    bottom: 0;
+    transition: bottom 1s;
+}
+
+.ChatHeader div{
+    font-size: 3em;
+    color: #282c34;
+    font-family: 'Source Code Pro', monospace;
+}
+
+.ChatHeader #menu:hover{
+    cursor: pointer;
+    color: #61afef;
+}
+
+.ChatHeader.hidden{
+    bottom: 10vh;
+}

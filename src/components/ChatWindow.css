@@ -1,0 +1,82 @@
+/* .chatContainer{
+    display: flex;
+    height: 100vh;
+    flex-direction: column;
+    justify-content: space-around;
+    align-content: space-around;
+    
+} */
+
+.ChatWindow{
+    width:100vw;
+    height:70vh;
+    padding: 0;
+    border-bottom: 1px solid white;
+    opacity: 100;
+    transition: opacity .5s;
+    position: relative;
+    overflow: hidden;
+}
+
+.Message{
+    width:100%;
+    vertical-align: middle;
+    padding: 5vh 5%;
+    overflow-wrap: break-word;
+}
+
+.Message.msg{
+    text-align: left;
+    color: #fafafa;
+    font-family: 'Ubuntu', sans-serif;
+}
+
+.Message.sys{
+    text-align:center;
+    color: #61afef;
+    font-family: 'Titillium Web', sans-serif;
+}
+
+
+
+.ChatWindow.hidden{
+    opacity: 0;
+}
+
+.MessageContainer{
+    overflow-y: scroll;
+    height: 100%;
+}
+
+.newMessage{
+    color: #282c34;
+    background-color: #fafafa;
+    width: 10em;
+    position: absolute;
+    right: 5vw;
+    bottom: 0;
+    border-radius: 10px 10px 0 0;
+    text-align: center;
+    display: flex;
+    align-content: center;
+    align-items: center;
+    justify-content: space-evenly;
+    transition-property: background-color opacity bottom;
+    transition-duration: .5s;
+    z-index: 2;
+}
+
+.newMessage:hover{
+    cursor: pointer;
+    background-color: #dadada;
+}
+
+.newMessage.hidden{
+    opacity: 0;
+    bottom: -10vh;
+}
+
+.icon{
+    width: 20%;
+    fill: #61afef;
+}

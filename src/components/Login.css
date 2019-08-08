@@ -1,0 +1,85 @@
+.Login{
+    position: absolute;
+    opacity: 100;
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    align-items: center;
+    width: 100vw;
+    height: 100vh;
+    background-color: #fafafa;
+    transition: opacity .7s;
+}
+
+.Login .name{
+    width: 100vw;
+    height: 60vh;
+    background-color: #282c34;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 2;
+}
+
+.Login .chatid{
+    width: 100vw;
+    height: 40vw;
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    align-items: center;
+    justify-content: center
+}
+
+.Login .chatid .oneline{
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    position: relative;
+    bottom: 10vh;
+    z-index: 10;
+}
+
+.Login div input[type="text"]{
+    border: none;
+    border-bottom: 3px solid;
+    font-family: 'Ubuntu', sans-serif;
+    font-size: 3em;
+    padding-top: 2em;
+    width: 90vw;
+}
+
+.Login .name input[type="text"]{
+    background-color: #282c34;
+    color: #fafafa;
+}
+
+.Login .chatid input[type="text"]{
+    position: relative;
+    bottom: 30vh;
+    z-index: 1;
+    background-color: #fafafa;
+    color: #282c34;
+    transition-property: bottom opacity;
+    transition-duration: 1s;
+    text-transform: uppercase;
+    opacity: 0;
+    font-family: 'Source Code Pro', monospace;
+}
+
+.Login .chatid input[type="text"].join{
+    bottom: 10vh;
+    opacity: 100;
+}
+
+#error{
+    text-align: center;
+    position: relative;
+    color: #e06c75;
+    bottom: 10vh;
+}
+
+.Login.hidden{
+    opacity: 0;
+}
