@@ -203,7 +203,7 @@ class App extends React.Component {
         <div id="messageInput">
           <MessageInput hidden={atLogin} onSend={this.send.bind(this)}/>
         </div>
-        <Websocket url="ws://localhost:8000/chatsocket"
+        <Websocket url={"ws://" + window.location.host + "/chatsocket"}
           onMessage={this.onMessage.bind(this)} 
           ref={Websocket => {this.refWebsocket = Websocket}} />
       </div>
