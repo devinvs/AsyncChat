@@ -9,6 +9,7 @@
     height: 100vh;
     background-color: #fafafa;
     transition: opacity .7s;
+    overflow: hidden;
 }
 
 .Login .name{
@@ -24,7 +25,7 @@
 
 .Login .chatid{
     width: 100vw;
-    height: 40vw;
+    height: 40vh;
     display: flex;
     flex-direction: column;
     align-content: center;
