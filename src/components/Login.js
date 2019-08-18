@@ -57,10 +57,10 @@ class Login extends React.Component{
         return(
             <div className={hidden? "Login hidden": "Login"}>
                 <div className="name">
-                    <input type="text" placeholder="Username" value={this.state.name} onKeyPress={(evt) => {this.alphaOnly(evt, true)}} onChange={(evt) => {this.onNameChange(evt)}}></input>
+                    <input disabled={hidden} type="text" placeholder="Username" value={this.state.name} onKeyPress={(evt) => {this.alphaOnly(evt, true)}} onChange={(evt) => {this.onNameChange(evt)}}></input>
                 </div>
                 <div className="chatid">
-                    <div id="chatEntry"><input className={newChat? "":"join"} type="text" value={this.state.chatid} placeholder="CHATID" onKeyPress={(evt) => {this.alphaOnly(evt, false)}} onChange={(evt) => {this.onChatChange(evt)}}></input>
+                    <div id="chatEntry"><input disabled={hidden} className={newChat? "":"join"} type="text" value={this.state.chatid} placeholder="CHATID" onKeyPress={(evt) => {this.alphaOnly(evt, false)}} onChange={(evt) => {this.onChatChange(evt)}}></input>
                     <p id="error">{error}</p></div>
                     <div className="oneline">
                         <Button buttonClass="dark" text={newChat? "New Chat": "Back"} action={hidden? () => {}: () => {newChat? this.joinChat():this.toggleJoin()}}/>
