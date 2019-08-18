@@ -29,5 +29,5 @@
 }
 
 .ChatHeader.hidden{
-    bottom: 10vh;
+    top: -20vh;
 }

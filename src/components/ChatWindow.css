@@ -17,7 +17,6 @@
     position: relative;
     top: 3em;
     overflow: hidden;
-    z-index: 2;
 }
 
 .Message{
