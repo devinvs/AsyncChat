@@ -19,7 +19,7 @@ class App extends React.Component {
 
     this.state = {
       showMenu: false,
-      atLogin: false,
+      atLogin: true,
       error: "",
       messages: [],
       name: "",
