@@ -4,6 +4,7 @@
     width: auto;
     display: inline-block;
     position: absolute;
+    top: 3.8em;
     padding: 3%;
     left: 0;
     transition-property: left;

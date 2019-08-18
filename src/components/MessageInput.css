@@ -7,7 +7,8 @@
     color: white;
     justify-content: center;
     position: relative;
-    top:0;
+    width: 100%;
+    top: 3em;
     transition-property: opacity top;
     transition-duration: 1s;
     opacity: 100;
@@ -20,7 +21,7 @@
     font-size: 1.2em;
     width: 100%;
     min-height: 2em;
-    padding: .5% 2%;
+    padding: .5% 1.5em .5% 2%;
     margin: 5% 0 5% 5%;
     border-radius: 10px;
     transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;

@@ -19,7 +19,7 @@ class App extends React.Component {
 
     this.state = {
       showMenu: false,
-      atLogin: true,
+      atLogin: false,
       error: "",
       messages: [],
       name: "",
@@ -194,7 +194,7 @@ class App extends React.Component {
     const atLogin = this.state.atLogin
 
     return(
-      <div ref={(div) => {this._scroll = div}}>
+      <div ref={(div) => {this._scroll = div}} style={{overflowY: "none", height: "100vh"}}>
         <Login hidden={!atLogin} error={this.state.error} connect={(name, chatid, newChat) => {this.connect(name, chatid, newChat)}}/>
         <ChatHeader hidden={atLogin} chatID={this.state.chatid} toggle={() => {this.toggleMenu()}} leave={() => {this.leave()}}/>
         <ChatMenu hidden={!this.state.showMenu || atLogin} users={this.state.users} role={this.state.role} lock={this.lock.bind(this)}/>

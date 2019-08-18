@@ -15,7 +15,9 @@
     opacity: 100;
     transition: opacity .5s;
     position: relative;
+    top: 3em;
     overflow: hidden;
+    z-index: 2;
 }
 
 .Message{

@@ -11,8 +11,10 @@ html,body {
   -moz-osx-font-smoothing: grayscale;
   background-color: #282c34;
   overflow: hidden;
+  overflow-y: scroll;
   position: relative;
   height: 100vh;
+  scrollbar-width: none;
 }
 
 *{
