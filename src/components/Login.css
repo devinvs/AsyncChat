@@ -74,6 +74,10 @@
     opacity: 100;
 }
 
+.Login .Button{
+    margin: 2%;
+}
+
 #error{
     text-align: center;
     position: relative;
