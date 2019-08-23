@@ -40,4 +40,4 @@ Currently hosted [here](http://54.218.28.240)
 
 `python build/app.py`
 
-Connect at [http://localhost:8000](http://localhost:8000)
+Connect at [http://localhost:3000](http://localhost:3000)
