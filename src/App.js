@@ -6,6 +6,7 @@ import ChatMenu from './components/ChatMenu'
 import Login from './components/Login'
 import cryptico from './cryptico'
 import Websocket from 'react-websocket'
+import { string } from 'postcss-selector-parser';
 
 class App extends React.Component {
 
@@ -53,6 +54,15 @@ class App extends React.Component {
   }
 
   leave(){
+
+    this.sendRaw(JSON.stringify({
+      type: 5,
+      sender: this.state.name,
+      recipients: "",
+      content: "",
+    }))
+    console.log("Leaving")
+
     this.setState({
       atLogin: true,
       showMenu: false,
@@ -134,6 +144,13 @@ class App extends React.Component {
     }else if(type === 3){
       let message = cryptico.decrypt(data.content, this.state.key).plaintext
       this.addMessage(message, data.sender, "msg")
+    }else if(type === 5){
+      this.setState({
+        users: this.state.users.filter(function(value, index, arr){
+          console.log(value.name)
+          return value.name !== data.content.name
+        })
+      })
     }
   }
 
@@ -155,15 +172,21 @@ class App extends React.Component {
   }
 
   send(message){
-    this.addMessage(message, "You", "msg")
 
-    for (const user of this.state.users){
-      this.sendRaw(JSON.stringify({
-        type: 3,
-        sender: this.state.name,
-        recipients: user.name,
-        content: cryptico.encrypt(message, user.key).cipher
-      }))
+    if(message.slice(0,1) === "/"){
+      this.handleCommand(message.slice(1))
+    }else{
+
+      this.addMessage(message, "You", "msg")
+
+      for (const user of this.state.users){
+        this.sendRaw(JSON.stringify({
+          type: 3,
+          sender: this.state.name,
+          recipients: user.name,
+          content: cryptico.encrypt(message, user.key).cipher
+        }))
+      }
     }
   }
 
@@ -190,6 +213,43 @@ class App extends React.Component {
     }
   }
 
+  handleCommand(cmdString){
+    let cmd = cmdString.split(' ')[0]
+    let args = cmdString.split(' ').slice(1)
+
+    switch(cmd){
+      case "help":
+      //Maybe I'll get around to this
+        break;
+
+      // case "whisper":
+      //   if(args.length < 2){
+      //     return
+      //   }
+      //   let recipients = args[0].split(',')
+      //   this.addMessage(args[1], "You", "msg")
+        
+      //   for (const user of recipients){
+      //     this.sendRaw(JSON.stringify({
+      //       type: 3,
+      //       sender: this.state.name,
+      //       recipients: user,
+      //       content: cryptico.encrypt(args.slice(1).join(" "), user.key).cipher
+      //     }))
+      //   }
+      //   break;
+
+      default:
+        this.sendRaw(JSON.stringify({
+          type: 4,
+          sender: this.state.name,
+          recipients: "",
+          content: cmdString
+        }))
+        break;
+    }
+  }
+
   render() {
     const atLogin = this.state.atLogin
 
@@ -203,7 +263,7 @@ class App extends React.Component {
         <div id="messageInput">
           <MessageInput hidden={atLogin} onSend={this.send.bind(this)}/>
         </div>
-        <Websocket url={"ws://" + window.location.host + "/chatsocket"}
+        <Websocket url={"ws://"+ window.location.host + "/chatsocket"}
           onMessage={this.onMessage.bind(this)} 
           ref={Websocket => {this.refWebsocket = Websocket}} />
       </div>

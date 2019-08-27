@@ -91,6 +91,16 @@ class ChatSocketHandler(tornado.websocket.WebSocketHandler):
                     chats[self.chat_id].new_message(message)
                 elif type == 4:
                     chats[self.chat_id].run_command(message["content"], message["sender"])
+                elif type == 5:
+                    chats[self.chat_id].del_user(self.name)
+                    if len(chats[self.chat_id].users) <= 0:
+                        try:
+                            chats.pop(self.chat_id)
+                        except KeyError as e:
+                            print(e)
+
+                    self.name = ""
+                    self.chat_id = ""
 
         except Exception as e:
             print(e)

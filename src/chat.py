@@ -20,7 +20,7 @@ class User():
 class Message():
 
     def __init__(self, type:int, sender:User, recipients:List[User], content):
-        self.type = type #0:Connect 1:Add User 2:System Message 3:User Message 4:Command
+        self.type = type #0:Connect 1:Add User 2:System Message 3:User Message 4:Command 5: Leave
         self.sender = sender
         self.recipients = recipients
         self.content = content
@@ -53,8 +53,8 @@ class ChatRoom():
     def add_user(self, user:User):
         # send user to current users
         recipients = [x for x in self.users.values()]
-        Message(1, user, recipients, user.to_json()).send()
-        Message(2, user, recipients, user.name + " joined the Chat").send()
+        Message(1, self.sys, recipients, user.to_json()).send()
+        Message(2, self.sys, recipients, user.name + " joined the Chat").send()
         
 
         # send list of users to new user
@@ -65,9 +65,14 @@ class ChatRoom():
         # add user
         self.users[user.name] = user
 
-    def del_user(self, user:User):
+    def del_user(self, name:str):
+
+        recipients = [x for x in self.users.values() if x.name != name]
+        Message(5, self.sys, recipients, self.users[name].to_json()).send()
+        Message(2, self.sys, recipients, name + " left the Chat").send()
+
         try:
-            self.users.pop(user.name)
+            self.users.pop(name)
         except KeyError as e:
             print(e)
 
